@@ -3,20 +3,28 @@
 """
 
 import datetime as dt
+import time
 
 
 def add_time(start, duration, week_day=None):
 
     # Making the time_struct object and parsing the input data
-    try:
-        if not week_day:
-            start_time_struct = dt.strptime(start, "%I:%M %p")
-        else:
-            new_start = start + " " + week_day.capitalize()
-            start_time_struct = dt.strptime(new_start, "%I:%M %p %A")
-    except:  # Error exception if the input date is invalid
-        print("Please enter a valid date.")
-        exit()
+    # try:
+   if not week_day:
+       start_time_struct = time.strptime(start,"%I:%M %p")
+       start_dt = dt.datetime(
+           hour=start_time_struct.tm_hour,minute=start_time_struct.tm_min )
+    else:
+       new_start = start + " " + week_day.capitaliz()
+       start_time_struct = time.strptim(new_start,"%I:%M %p %A")
+       start_dt = dt.datetime(
+           hour=start_time_struct.tm_hour,
+           minute=start_time_struct.tm_min,
+           week_day=start_time_struct.tm_wday,
+       )
+    # except:  # Error exception if the input date is invalid
+    #     print("Please enter a valid date.")
+    #     exit()
 
     # parsing the "duration" argument
     dur_lst = duration.split(":")
@@ -24,7 +32,7 @@ def add_time(start, duration, week_day=None):
     min_xtra = dur_lst[1]
 
     # Adding the duration on the time_struct
-    end_time_struct = start_time_struct + dt.timedelta(hours=hr_xtra, minutes=min_xtra)
+    end_time_struct = start_dt + dt.timedelta(hours=hr_xtra, minutes=min_xtra)
 
     # return new_time
     return end_time_struct
